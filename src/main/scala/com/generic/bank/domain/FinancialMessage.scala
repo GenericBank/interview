@@ -23,7 +23,7 @@ object FinancialMessage {
 
     sealed trait Currency extends EnumEntry
     object Currency extends Enum[Currency] {
-      val values = findValues
+      val values: IndexedSeq[Currency] = findValues
 
       case object AUD extends Currency
       case object CAD extends Currency

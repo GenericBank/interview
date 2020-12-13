@@ -2,7 +2,6 @@ package com.generic.bank.fraud.api
 
 import com.generic.bank.domain.FinancialMessage
 import com.generic.bank.fraud.api.domain.FraudResult
-import com.generic.bank.modules.ActorSystemModule
 import com.softwaremill.quicklens._
 import org.scalatest.RecoverMethods
 import org.scalatest.concurrent.ScalaFutures
@@ -10,7 +9,7 @@ import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpec
 import org.scalatestplus.scalacheck.ScalaCheckPropertyChecks
 
-import scala.concurrent.ExecutionContext
+import scala.concurrent.ExecutionContext.Implicits.global
 
 class FraudApiSpec
     extends AnyWordSpec
@@ -22,12 +21,7 @@ class FraudApiSpec
 
   "FraudApi#handle" should {
 
-    val actorSystemModule = ActorSystemModule()
-    val fraudApi = new DefaultFraudApi(actorSystemModule)
-
-    implicit val executionContext: ExecutionContext = actorSystemModule.executionContext
-
-    "return Fraud" in {
+    "return Fraud" in new Fixture {
       forAll { (financialMessage: FinancialMessage) =>
         val fraudMessage = financialMessage
           .modify(_.amount.currency)
@@ -39,7 +33,7 @@ class FraudApiSpec
       }
     }
 
-    "return NoFraud" in {
+    "return NoFraud" in new Fixture {
       forAll { (financialMessage: FinancialMessage) =>
         val noFraudMessage = financialMessage
           .modify(_.amount.currency)
@@ -51,7 +45,7 @@ class FraudApiSpec
       }
     }
 
-    "return an Error.Illegal" in {
+    "return an Error.Illegal" in new Fixture {
       forAll { (financialMessage: FinancialMessage) =>
         val CHFMessage = financialMessage
           .modify(_.amount.currency)
@@ -63,7 +57,7 @@ class FraudApiSpec
       }
     }
 
-    "return an Error.System" in {
+    "return an Error.System" in new Fixture {
       forAll { (financialMessage: FinancialMessage) =>
         val JPYMessage = financialMessage
           .modify(_.amount.currency)
@@ -75,7 +69,7 @@ class FraudApiSpec
       }
     }
 
-    "return Future.Failure" in {
+    "return Future.Failure" in new Fixture {
       forAll { (financialMessage: FinancialMessage) =>
         val CADMessage = financialMessage
           .modify(_.amount.currency)
@@ -86,6 +80,10 @@ class FraudApiSpec
         recoverToExceptionIf[RuntimeException](result)
       }
     }
+  }
+
+  trait Fixture {
+    val fraudApi = new DefaultFraudApi
   }
 
 }

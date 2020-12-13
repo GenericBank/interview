@@ -8,16 +8,14 @@ import akka.stream.scaladsl._
 import cats.syntax.either._
 import com.generic.bank.config.ApplicationConfig
 import com.generic.bank.stream.incoming
+import com.google.inject.Inject
 
 import scala.util.Try
 
-class IncomingStream(
-  applicationConfig: ApplicationConfig
-) {
+class IncomingStream @Inject() (applicationConfig: ApplicationConfig) {
 
   def source(): Either[Error, Source[File, NotUsed]] =
-    Try(getClass.getResource(applicationConfig.messageFolder.value))
-      .toEither
+    Try(getClass.getResource(applicationConfig.messageFolder.value)).toEither
       .leftMap(incoming.Error.System)
       .flatMap(Option(_).toRight(incoming.Error.DirectoryNotFound))
       .map(_.toURI)

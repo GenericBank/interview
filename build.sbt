@@ -8,6 +8,7 @@ scalaVersion := "2.13.4"
 
 libraryDependencies ++= Seq(
   Libraries.akkaStream,
+  Libraries.guice,
   Libraries.cats,
   Libraries.enumeratum,
   Libraries.pureConfig,

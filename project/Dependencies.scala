@@ -4,8 +4,9 @@ object Dependencies {
 
   object Versions {
     val akka = "2.6.10"
+    val guice = "4.2.3"
     val cats = "2.3.0"
-    val circe = "0.11.1"
+    val circe = "0.12.3"
     val enumeratum = "1.6.1"
     val pureConfig = "0.14.0"
 
@@ -23,6 +24,7 @@ object Dependencies {
     def akka(artifact: String): ModuleID = "com.typesafe.akka" %% artifact % Versions.akka
 
     lazy val akkaStream = akka("akka-stream")
+    lazy val guice = "com.google.inject"          % "guice"       % Versions.guice
     lazy val cats = "org.typelevel"               %% "cats-core"  % Versions.cats
     lazy val enumeratum = "com.beachape"          %% "enumeratum" % Versions.enumeratum
     lazy val pureConfig = "com.github.pureconfig" %% "pureconfig" % Versions.pureConfig
