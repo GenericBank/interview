@@ -22,12 +22,14 @@ object Dependencies {
 
   object Libraries {
     def akka(artifact: String): ModuleID = "com.typesafe.akka" %% artifact % Versions.akka
+    def circe(artifact: String): ModuleID = "io.circe" %% artifact % Versions.circe
 
     lazy val akkaStream = akka("akka-stream")
     lazy val guice = "com.google.inject"          % "guice"       % Versions.guice
     lazy val cats = "org.typelevel"               %% "cats-core"  % Versions.cats
     lazy val enumeratum = "com.beachape"          %% "enumeratum" % Versions.enumeratum
     lazy val pureConfig = "com.github.pureconfig" %% "pureconfig" % Versions.pureConfig
+    lazy val circeCore = Seq(circe("circe-core"), circe("circe-generic"), circe("circe-parser"))
 
     // Runtime
     lazy val logback = "ch.qos.logback" % "logback-classic" % Versions.logback

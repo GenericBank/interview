@@ -18,7 +18,7 @@ libraryDependencies ++= Seq(
   Libraries.scalaCheck              % Test,
   Libraries.scalaTest               % Test,
   Libraries.scalaTestPlusScalaCheck % Test
-)
+) ++ Libraries.circeCore
 
 addCommandAlias("update", ";dependencyUpdates; reload plugins; dependencyUpdates; reload return")
 addCommandAlias("fmt", ";scalafmtSbt;scalafmtAll")
