@@ -29,12 +29,12 @@ class MessageParser @Inject() (config: ApplicationConfig) {
     */
   def parse(file: File): EitherNec[ParsingError, FinancialMessage] =
     Either
-      .cond(file.length() <= config.messageFolder.maxFileSize, file, NonEmptyChain(FileTooLarge))
+      .cond(file.length() <= config.messageFolder.maxFileSize, file, NonEmptyChain(FileTooLarge(file)))
       .flatMap(readFile)
-      .flatMap(toJson)
+      .flatMap(content => toJson(file, content))
       .flatMap {
-        case m: MT103 => mt103ToFinancialMessage(m)
-        case m: MT202 => mt202ToFinancialMessage(m)
+        case m: MT103 => mt103ToFinancialMessage(file, m)
+        case m: MT202 => mt202ToFinancialMessage(file, m)
       }
 
   private def readFile(file: File): EitherNec[ParsingError, String] = {
@@ -45,13 +45,13 @@ class MessageParser @Inject() (config: ApplicationConfig) {
         source.close() // don't forget to close the source once it has been opened
         result
       }
-      .leftMap(CannotReadFile)
+      .leftMap(e => CannotReadFile(file, e))
       .leftMap(NonEmptyChain(_))
   }
 
-  private def toJson(value: String): EitherNec[ParsingError, JsonMessage] = {
+  private def toJson(file: File, value: String): EitherNec[ParsingError, JsonMessage] = {
     decode[JsonMessage](value)
-      .leftMap(InvalidJson)
+      .leftMap(e => InvalidJson(file, e))
       .leftMap(NonEmptyChain(_))
   }
 
@@ -59,45 +59,48 @@ class MessageParser @Inject() (config: ApplicationConfig) {
     * Mapping from raw MT103 file to FinancialMessage
     * Assumption that Bic are completely valid but the code could evolve to add validation for each fields
     * Question ? What do we do with the IBAN information ?
-    * @param message
+    * @param file the original file
+    * @param message the parsed json message
     * @return Either containing either the parsed messaged or a chain of errors
     */
-  private def mt103ToFinancialMessage(message: MT103): EitherNec[ParsingError, FinancialMessage] =
+  private def mt103ToFinancialMessage(file: File, message: MT103): EitherNec[ParsingError, FinancialMessage] =
     (
       FinancialMessage.SenderBic(Bic(message.sendingInstitution)).rightNec,
       FinancialMessage.ReceiverBic(Bic(message.accountWithInstitution)).rightNec,
-      extractCurrencyAndAmount(message.currencyInstructedAmount),
+      extractCurrencyAndAmount(file, message.currencyInstructedAmount),
       None.rightNec
     ).parMapN(FinancialMessage.apply)
 
   /**
     * Mapping from raw MT202 file to FinancialMessage
     * Assumption that Bic are completely valid but the code could evolve to add validation for each fields
-    * @param message
+    * @param file the original file
+    * @param message the parsed json message
     * @return Either containing either the parsed messaged or a chain of errors
     */
-  private def mt202ToFinancialMessage(message: MT202): EitherNec[ParsingError, FinancialMessage] =
+  private def mt202ToFinancialMessage(file: File, message: MT202): EitherNec[ParsingError, FinancialMessage] =
     (
       FinancialMessage.SenderBic(Bic(message.orderingInstitution)).rightNec,
       FinancialMessage.ReceiverBic(Bic(message.beneficiaryInstitution)).rightNec,
-      extractCurrencyAndAmount(message.valueDateCurrencyCodeAmount),
+      extractCurrencyAndAmount(file, message.valueDateCurrencyCodeAmount),
       None.rightNec
     ).parMapN(FinancialMessage.apply)
 
   private def extractCurrencyAndAmount(
+      file: File,
       value: String
     ): EitherNec[ParsingError, FinancialMessage.Amount] =
     value match {
       case currencyAndAmountRegex(currency, amount) =>
         (
           Either
-            .fromOption(amount.toDoubleOption, NonEmptyChain(InvalidAmount(amount)))
+            .fromOption(amount.toDoubleOption, NonEmptyChain(InvalidAmount(file, amount)))
             .map(FinancialMessage.Amount.Value),
           FinancialMessage.Amount.Currency
             .withNameEither(currency)
-            .leftMap(_ => NonEmptyChain(InvalidCurrency(currency)))
+            .leftMap(_ => NonEmptyChain(InvalidCurrency(file, currency)))
         ).parMapN(FinancialMessage.Amount.apply)
-      case value => InvalidAmount(value).leftNec
+      case value => InvalidAmount(file, value).leftNec
     }
 }
 

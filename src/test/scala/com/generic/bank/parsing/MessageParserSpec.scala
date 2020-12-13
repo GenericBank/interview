@@ -75,7 +75,7 @@ class MessageParserSpec extends AnyWordSpecLike with Matchers {
       val parsingResult: EitherNec[Error, FinancialMessage] =
         parser.parse(getResourceFile("large_file.json"))
       parsingResult shouldBe Symbol("left")
-      parsingResult.leftMap(_.toList).left.getOrElse(List.empty).head shouldBe FileTooLarge
+      parsingResult.leftMap(_.toList).left.getOrElse(List.empty).head shouldBe a[FileTooLarge]
     }
 
     "return error when file doesn't exists" in new Fixture {
