@@ -1,6 +1,7 @@
 package com.generic.bank.domain
 
-import enumeratum.{ Enum, EnumEntry }
+import cats.Show
+import enumeratum.{Enum, EnumEntry}
 
 case class FinancialMessage(
   sender: FinancialMessage.SenderBic,
@@ -38,4 +39,5 @@ object FinancialMessage {
 
   }
 
+  implicit  val showFinancialMessage: Show[FinancialMessage] = Show.fromToString
 }

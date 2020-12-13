@@ -85,7 +85,9 @@ class MessageParserSpec extends AnyWordSpecLike with Matchers {
 
   trait Fixture {
     val config: ApplicationConfig = ApplicationConfig(
-      messageFolder = ApplicationConfig.MessageFolder("/messages", 1024)
+      messageFolder = ApplicationConfig.MessageFolder("/messages", 1024),
+      ApplicationConfig.FraudApi(1),
+      ApplicationConfig.NotificationApi(1)
     )
     val parser = new MessageParser(config)
 

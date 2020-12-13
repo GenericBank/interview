@@ -27,7 +27,8 @@ class ConfigSpec extends AnyWordSpecLike with Matchers {
 object ConfigSpec {
 
   val applicationConfig: ApplicationConfig = ApplicationConfig(
-    messageFolder = ApplicationConfig.MessageFolder("/messages", 1024)
+    messageFolder = ApplicationConfig.MessageFolder("/messages", 1024),
+    ApplicationConfig.FraudApi(1),
+    ApplicationConfig.NotificationApi(1)
   )
-
 }
