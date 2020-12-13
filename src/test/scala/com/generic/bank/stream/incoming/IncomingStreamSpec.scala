@@ -21,7 +21,7 @@ class IncomingStreamSpec
 
     "return a Source of Files" in {
       val applicationConfig = ApplicationConfig(
-        ApplicationConfig.MessageFolder("/messages")
+        ApplicationConfig.MessageFolder("/messages", 1024)
       )
       val incomingStream = new IncomingStream(applicationConfig)
 
@@ -47,7 +47,7 @@ class IncomingStreamSpec
 
     "return an Error.DirectoryNotFound" in {
       val applicationConfig = ApplicationConfig(
-        ApplicationConfig.MessageFolder("not-a-directory")
+        ApplicationConfig.MessageFolder("not-a-directory", 1024)
       )
       val incomingStream = new IncomingStream(applicationConfig)
 

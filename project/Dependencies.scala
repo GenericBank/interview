@@ -6,7 +6,7 @@ object Dependencies {
     val akka = "2.6.10"
     val guice = "4.2.3"
     val cats = "2.3.0"
-    val circe = "0.12.3"
+    val circe = "0.13.0"
     val enumeratum = "1.6.1"
     val pureConfig = "0.14.0"
 
@@ -29,7 +29,7 @@ object Dependencies {
     lazy val cats = "org.typelevel"               %% "cats-core"  % Versions.cats
     lazy val enumeratum = "com.beachape"          %% "enumeratum" % Versions.enumeratum
     lazy val pureConfig = "com.github.pureconfig" %% "pureconfig" % Versions.pureConfig
-    lazy val circeCore = Seq(circe("circe-core"), circe("circe-generic"), circe("circe-parser"))
+    lazy val circeCore = Seq(circe("circe-core"), circe("circe-generic"), circe("circe-parser"), circe("circe-generic-extras"))
 
     // Runtime
     lazy val logback = "ch.qos.logback" % "logback-classic" % Versions.logback

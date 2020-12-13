@@ -15,7 +15,7 @@ import scala.util.Try
 class IncomingStream @Inject() (applicationConfig: ApplicationConfig) {
 
   def source(): Either[Error, Source[File, NotUsed]] =
-    Try(getClass.getResource(applicationConfig.messageFolder.value)).toEither
+    Try(getClass.getResource(applicationConfig.messageFolder.path)).toEither
       .leftMap(incoming.Error.System)
       .flatMap(Option(_).toRight(incoming.Error.DirectoryNotFound))
       .map(_.toURI)

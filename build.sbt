@@ -20,5 +20,7 @@ libraryDependencies ++= Seq(
   Libraries.scalaTestPlusScalaCheck % Test
 ) ++ Libraries.circeCore
 
+
+scalacOptions += "-Ymacro-annotations"
 addCommandAlias("update", ";dependencyUpdates; reload plugins; dependencyUpdates; reload return")
 addCommandAlias("fmt", ";scalafmtSbt;scalafmtAll")
