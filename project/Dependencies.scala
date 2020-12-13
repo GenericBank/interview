@@ -12,12 +12,14 @@ object Dependencies {
 
     // Runtime
     val logback = "1.2.3"
+    val scalaLogging = "3.9.2"
 
     // Test
     val quicklens = "1.6.1"
     val scalaCheck = "1.15.1"
     val scalaTest = "3.2.3"
     val scalaTestPlusScalaCheck = "3.2.2.0"
+    val mockito = "1.16.3"
   }
 
   object Libraries {
@@ -33,6 +35,7 @@ object Dependencies {
 
     // Runtime
     lazy val logback = "ch.qos.logback" % "logback-classic" % Versions.logback
+    lazy val scalaLogging = "com.typesafe.scala-logging" %% "scala-logging" % Versions.scalaLogging
 
     // Test
     lazy val akkaStreamTestKit = akka("akka-stream-testkit")
@@ -40,6 +43,8 @@ object Dependencies {
     lazy val scalaCheck = "org.scalacheck"                 %% "scalacheck"      % Versions.scalaCheck
     lazy val scalaTest = "org.scalatest"                   %% "scalatest"       % Versions.scalaTest
     lazy val scalaTestPlusScalaCheck = "org.scalatestplus" %% "scalacheck-1-14" % Versions.scalaTestPlusScalaCheck
+    lazy val mockitoScalaTest  = "org.mockito"             %% "mockito-scala-scalatest" % Versions.mockito
+    lazy val mockitoScala  = "org.mockito"                 %% "mockito-scala"  % Versions.mockito
   }
 
 }

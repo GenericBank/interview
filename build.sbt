@@ -13,11 +13,14 @@ libraryDependencies ++= Seq(
   Libraries.enumeratum,
   Libraries.pureConfig,
   Libraries.logback,
+  Libraries.scalaLogging,
   Libraries.akkaStreamTestKit       % Test,
   Libraries.quicklens               % Test,
   Libraries.scalaCheck              % Test,
   Libraries.scalaTest               % Test,
-  Libraries.scalaTestPlusScalaCheck % Test
+  Libraries.scalaTestPlusScalaCheck % Test,
+  Libraries.mockitoScala            % Test,
+  Libraries.mockitoScalaTest        % Test
 ) ++ Libraries.circeCore
 
 
