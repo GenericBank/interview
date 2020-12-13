@@ -6,5 +6,5 @@ import com.google.inject.Guice
 
 object Main extends App {
   val injector = Guice.createInjector(new MainModule())
-  injector.getInstance(classOf[AppRunner]).run
+  injector.getInstance(classOf[AppRunner]).run()
 }
