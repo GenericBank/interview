@@ -5,9 +5,9 @@ import cats.syntax.applicative._
 import cats.syntax.either._
 import com.generic.bank.domain.FinancialMessage
 import com.generic.bank.fraud.api.domain.FraudResult
-import com.generic.bank.modules.ActorSystemModule
+import com.google.inject.Inject
 
-import scala.concurrent.{ ExecutionContext, Future }
+import scala.concurrent.{ExecutionContext, Future}
 
 /** Do not change this code :)
   */
@@ -17,11 +17,7 @@ trait FraudApi {
 
 }
 
-class DefaultFraudApi(
-  actorSystemModule: ActorSystemModule
-) extends FraudApi {
-
-  implicit private val executionSystem: ExecutionContext = actorSystemModule.executionContext
+class DefaultFraudApi @Inject() (implicit ec: ExecutionContext) extends FraudApi {
 
   override def handle(financialMessage: FinancialMessage): Future[Either[Error, FraudResult]] =
     financialMessage.amount.currency match {

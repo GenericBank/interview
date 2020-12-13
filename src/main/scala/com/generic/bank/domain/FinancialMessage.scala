@@ -1,6 +1,7 @@
 package com.generic.bank.domain
 
-import enumeratum.{ Enum, EnumEntry }
+import cats.Show
+import enumeratum.{Enum, EnumEntry}
 
 case class FinancialMessage(
   sender: FinancialMessage.SenderBic,
@@ -23,7 +24,7 @@ object FinancialMessage {
 
     sealed trait Currency extends EnumEntry
     object Currency extends Enum[Currency] {
-      val values = findValues
+      val values: IndexedSeq[Currency] = findValues
 
       case object AUD extends Currency
       case object CAD extends Currency
@@ -38,4 +39,5 @@ object FinancialMessage {
 
   }
 
+  implicit  val showFinancialMessage: Show[FinancialMessage] = Show.fromToString
 }

@@ -1,5 +1,7 @@
 package com.generic.bank.config
 
+import com.generic.bank.modules.ConfigModule
+import com.google.inject.{Guice, Injector}
 import org.scalatest.matchers.should.Matchers
 import org.scalatest.wordspec.AnyWordSpecLike
 
@@ -12,7 +14,8 @@ class ConfigSpec extends AnyWordSpecLike with Matchers {
 
       "be correctly parsed" in {
 
-        val result = Config.get.get
+        val injector: Injector = Guice.createInjector(new ConfigModule())
+        val result = injector.getInstance(classOf[ApplicationConfig])
 
         result shouldBe applicationConfig
 
@@ -24,7 +27,8 @@ class ConfigSpec extends AnyWordSpecLike with Matchers {
 object ConfigSpec {
 
   val applicationConfig: ApplicationConfig = ApplicationConfig(
-    messageFolder = ApplicationConfig.MessageFolder("/messages")
+    messageFolder = ApplicationConfig.MessageFolder("/messages", 1024),
+    ApplicationConfig.FraudApi(1),
+    ApplicationConfig.NotificationApi(1)
   )
-
 }
