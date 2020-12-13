@@ -61,7 +61,7 @@ class MessageParserSpec extends AnyWordSpecLike with Matchers {
       val parsingResult: EitherNec[Error, FinancialMessage] =
         parser.parse(getResourceFile("mt103_3.json"))
       parsingResult shouldBe Symbol("left")
-      parsingResult.leftMap(_.toList).left.getOrElse(List.empty).head shouldBe InvalidCurrency
+      parsingResult.leftMap(_.toList).left.getOrElse(List.empty).head shouldBe a[InvalidCurrency]
     }
 
     "return error when json is incorrect" in new Fixture {
@@ -69,6 +69,13 @@ class MessageParserSpec extends AnyWordSpecLike with Matchers {
         parser.parse(getResourceFile("mt202_1.json"))
       parsingResult shouldBe Symbol("left")
       parsingResult.leftMap(_.toList).left.getOrElse(List.empty).head shouldBe a[InvalidJson]
+    }
+
+    "return error when json file is too large" in new Fixture {
+      val parsingResult: EitherNec[Error, FinancialMessage] =
+        parser.parse(getResourceFile("large_file.json"))
+      parsingResult shouldBe Symbol("left")
+      parsingResult.leftMap(_.toList).left.getOrElse(List.empty).head shouldBe FileTooLarge
     }
 
     "return error when file doesn't exists" in new Fixture {

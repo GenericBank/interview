@@ -1,0 +1,115 @@
+[{
+    "messageType": "MT103",
+    "33B": "EUR123",
+    "50A": "BE71096123456769",
+    "51A": "TNISROB2",
+    "57A": "BTRLRO22",
+    "59A": "RO09BCYP0000001234567890"
+},{
+    "messageType": "MT103",
+    "33B": "AUD123",
+    "50A": "BE71096123456769",
+    "51A": "RNCBROBU",
+    "57A": "TNISROB2",
+    "59A": "RO09BCYP0000001234567890"
+},{
+    "messageType": "MT103",
+    "33B": "XXX123",
+    "50A": "BE71096123456769",
+    "51A": "TNISROB2",
+    "57A": "BTRLRO22",
+    "59A": "RO09BCYP0000001234567890"
+},{
+    "messageType": "MT103",
+    "33B": "CAD123",
+    "50A": "BE71096123456769",
+    "51A": "RNCBROBU",
+    "57A": "BBRUBEBB",
+    "59A": "RO09BCYP0000001234567890"
+},{
+    "messageType": "MT202",
+    "INCORRECT_FIELD": "EUR1224",
+    "52A": "BBRUBEBB",
+    "58A": "RNCBROBU"
+},{
+    "messageType": "MT202",
+    "32A": "CHF123",
+    "52A": "BBRUBEBB",
+    "58A": "RNCBROBU"
+},{
+    "messageType": "MT103",
+    "33B": "EUR123",
+    "50A": "BE71096123456769",
+    "51A": "TNISROB2",
+    "57A": "BTRLRO22",
+    "59A": "RO09BCYP0000001234567890"
+},{
+    "messageType": "MT103",
+    "33B": "AUD123",
+    "50A": "BE71096123456769",
+    "51A": "RNCBROBU",
+    "57A": "TNISROB2",
+    "59A": "RO09BCYP0000001234567890"
+},{
+    "messageType": "MT103",
+    "33B": "XXX123",
+    "50A": "BE71096123456769",
+    "51A": "TNISROB2",
+    "57A": "BTRLRO22",
+    "59A": "RO09BCYP0000001234567890"
+},{
+    "messageType": "MT103",
+    "33B": "CAD123",
+    "50A": "BE71096123456769",
+    "51A": "RNCBROBU",
+    "57A": "BBRUBEBB",
+    "59A": "RO09BCYP0000001234567890"
+},{
+    "messageType": "MT202",
+    "INCORRECT_FIELD": "EUR1224",
+    "52A": "BBRUBEBB",
+    "58A": "RNCBROBU"
+},{
+    "messageType": "MT202",
+    "32A": "CHF123",
+    "52A": "BBRUBEBB",
+    "58A": "RNCBROBU"
+},{
+    "messageType": "MT103",
+    "33B": "EUR123",
+    "50A": "BE71096123456769",
+    "51A": "TNISROB2",
+    "57A": "BTRLRO22",
+    "59A": "RO09BCYP0000001234567890"
+},{
+    "messageType": "MT103",
+    "33B": "AUD123",
+    "50A": "BE71096123456769",
+    "51A": "RNCBROBU",
+    "57A": "TNISROB2",
+    "59A": "RO09BCYP0000001234567890"
+},{
+    "messageType": "MT103",
+    "33B": "XXX123",
+    "50A": "BE71096123456769",
+    "51A": "TNISROB2",
+    "57A": "BTRLRO22",
+    "59A": "RO09BCYP0000001234567890"
+},{
+    "messageType": "MT103",
+    "33B": "CAD123",
+    "50A": "BE71096123456769",
+    "51A": "RNCBROBU",
+    "57A": "BBRUBEBB",
+    "59A": "RO09BCYP0000001234567890"
+},{
+    "messageType": "MT202",
+    "INCORRECT_FIELD": "EUR1224",
+    "52A": "BBRUBEBB",
+    "58A": "RNCBROBU"
+},{
+    "messageType": "MT202",
+    "32A": "CHF123",
+    "52A": "BBRUBEBB",
+    "58A": "RNCBROBU"
+}]

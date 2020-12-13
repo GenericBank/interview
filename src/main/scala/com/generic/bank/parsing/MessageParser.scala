@@ -91,13 +91,13 @@ class MessageParser @Inject() (config: ApplicationConfig) {
       case currencyAndAmountRegex(currency, amount) =>
         (
           Either
-            .fromOption(amount.toDoubleOption, NonEmptyChain(InvalidAmount))
+            .fromOption(amount.toDoubleOption, NonEmptyChain(InvalidAmount(amount)))
             .map(FinancialMessage.Amount.Value),
           FinancialMessage.Amount.Currency
             .withNameEither(currency)
-            .leftMap(_ => NonEmptyChain(InvalidCurrency))
+            .leftMap(_ => NonEmptyChain(InvalidCurrency(currency)))
         ).parMapN(FinancialMessage.Amount.apply)
-      case _ => InvalidAmount.leftNec
+      case value => InvalidAmount(value).leftNec
     }
 }
 
