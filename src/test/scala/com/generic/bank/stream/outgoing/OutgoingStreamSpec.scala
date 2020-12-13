@@ -6,11 +6,9 @@ import akka.stream.scaladsl.{Sink, Source}
 import cats.implicits._
 import com.generic.bank.config.ApplicationConfig
 import com.generic.bank.domain.FinancialMessage
-import com.generic.bank.fraud.client.Error.{showError => showFraudClientError}
 import com.generic.bank.fraud.client.domain.FraudResult
 import com.generic.bank.fraud.client.{FraudClient, Error => FraudApiError}
 import com.generic.bank.notification.NotificationService
-import com.generic.bank.parsing.Error.{showError => showParsingError}
 import com.generic.bank.parsing.{MessageParser, Error => ParsingError}
 import com.softwaremill.quicklens.ModifyPimp
 import org.mockito.scalatest.MockitoSugar
@@ -26,6 +24,9 @@ import scala.concurrent.Future
 class OutgoingStreamSpec
     extends AnyWordSpec with Matchers with MockitoSugar with ScalaFutures with BeforeAndAfterAll {
   import com.generic.bank.arbitraries.ArbitraryFinancialMessage._
+  import com.generic.bank.parsing.Error.{showError => showParsingError}
+  import com.generic.bank.fraud.client.Error.{showError => showFraudClientError}
+
   implicit val actorSystem: ActorSystem = ActorSystem()
 
   override def afterAll(): Unit = actorSystem.terminate().void.futureValue
@@ -60,7 +61,7 @@ class OutgoingStreamSpec
     }
 
     "call notification service if the parsing fails" in new Fixture {
-      val error: ParsingError = ParsingError.FileTooLarge
+      val error: ParsingError = ParsingError.FileTooLarge(file)
       when(parser.parse(any[File])).thenReturn(error.leftNec)
       when(notificationService.notifyError(any[String])).thenReturn(().pure[Future])
 

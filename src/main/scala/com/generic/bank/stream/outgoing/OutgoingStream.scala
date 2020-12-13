@@ -10,10 +10,6 @@ import com.generic.bank.fraud.client.domain.FraudResult
 import com.generic.bank.notification.NotificationService
 import com.generic.bank.parsing.MessageParser
 import com.google.inject.Inject
-import com.generic.bank.domain.FinancialMessage.showFinancialMessage
-import com.generic.bank.fraud.client.Error.{showError => showFraudClientError}
-import com.generic.bank.parsing.Error.{showError => showParsingError}
-import OutgoingStream.showNec
 import com.generic.bank.config.ApplicationConfig
 import com.generic.bank.domain.FinancialMessage
 import com.typesafe.scalalogging.LazyLogging
@@ -29,6 +25,11 @@ class OutgoingStream @Inject() (
   )(
     implicit ec: ExecutionContext
   ) extends LazyLogging {
+
+  import com.generic.bank.domain.FinancialMessage.showFinancialMessage
+  import com.generic.bank.fraud.client.Error.{showError => showFraudClientError}
+  import com.generic.bank.parsing.Error.{showError => showParsingError}
+  import OutgoingStream.showNec
 
   /**
     * Process files one by one:
