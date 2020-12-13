@@ -87,3 +87,28 @@ Good luck!
 
 #### Sources
 This README is based of the wonderful README.md from Paidy's interview exercise.
+
+## The implementation
+
+### Flow
+
+1) The application starts by running the stream of files and then exits
+2) Each file is parsed against either MT103 or MT202 format
+3) Each correctly parsed file is sent to the fraud API and the message is updated with the returned value
+4) The result is print into the console
+3) If there is a parsing error or a fraud api call error, a notification service is called to warn an operator something is going wrong
+
+### Assumptions and possible improvements
+
+* In a real live case environment, the stream would be infinite (like kafka stream) and, in this aspect, the actual implementation is limited.
+Normally, if the stream fails, we should retry to open it and not exit the application
+* The expected error rate is low, especially regarding the parsing as the files should come from a trusted source.
+In this case, it is ok to send one message to a notification service but the could also be sent by batch. This is easily done with streams
+    * For api call failure, we could also add a retry mechanism. And, in the end, as we wouldn't want to lose any message, reinject them in the stream or save them somewhere
+    * For Kafka stream, if the overall process is idempotent, we could play with the commit offset to replay files when had issues. A more complicated runnable graph would be needed then
+* The parsing of the swift file is fairly simple. Actually, only the Json format and the currency/amount format is verified.
+We could easily extend that.
+    * It may be also necessary to externalize the currency validation and/or the bic/iban validation
+* It is considered a safe to refuse to start if there is any configuration error if we run in a k8s environment with rolling deployments
+* I would personally avoid naming all error trait `Error` to avoid name clashes
+  
